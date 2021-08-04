@@ -8,6 +8,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class HelloController {
+
+    @ResponseBody
+    @RequestMapping("/")
+    String sayHi() {
+        return "hihi";
+    }
+    // default hello use template
     @RequestMapping("/hello")
     String sayHello(Model model) {
         String hello_text = "Hello my friend";
@@ -20,12 +27,9 @@ public class HelloController {
         return "hello";
     }
 
-    @ResponseBody
-    @RequestMapping("/")
-    String sayHi() {
-        return "hihi";
-    }
 
+
+    //show form input
     @RequestMapping("/add")
     String addPesron(People person, Model model) {
         String hello_text = "Hello my friend";
@@ -36,6 +40,7 @@ public class HelloController {
         return "hello";
     }
 
+    // to the form
     @RequestMapping("/addForm")
     String addForm(Model model) {
         People person = new People();  // 前一個範例有新增Person.java 的class
@@ -44,7 +49,7 @@ public class HelloController {
         return "add";
     }
 
-// redirect will do the api route function again
+    // redirect will do the api route function again
     @RequestMapping("/renew")
     String redirect(Model model, RedirectAttributes attributes) {
         People peopleInfo = new People();
@@ -52,7 +57,7 @@ public class HelloController {
         peopleInfo.setName("thx");
         model.addAttribute("people", peopleInfo);
         String showMessage = "from redirect message";
-        attributes.addFlashAttribute("message",showMessage);
+        attributes.addFlashAttribute("message", showMessage);
         return "redirect:/hello";
     }
 
