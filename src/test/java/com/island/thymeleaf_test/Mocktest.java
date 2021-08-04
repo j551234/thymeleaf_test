@@ -7,7 +7,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +20,18 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest
 public class Mocktest {
+
+    @SpyBean
+    private HelloService spyService;
+    @Autowired
+    private CallService callService;
+    /**
+     * the same as
+     * @Spy private HelloService spyService;
+     * @InjectMocks private CallService callService;
+     *
+     * */
+
     @Mock
     private List mockList;
     @Spy
@@ -79,4 +93,22 @@ public class Mocktest {
 
         Assertions.assertEquals(expected, spyList.get(100));
     }
+
+    @Test
+    void spyServiceTest() {
+        spyService.setVersion(999);
+        System.out.println(spyService.getVersion());
+        assert (spyService.getVersion() == 999);
+    }
+
+
+    @Test
+    void setCallService() {
+        System.out.println(spyService.sayHello());
+        when(spyService.sayHello()).thenReturn("alloha");
+        assert (callService.callHello().equals("alloha"));
+    }
+
+
 }
+
